@@ -27,7 +27,7 @@ public class Wejscie {
         return slowa;
     }
 
-    public Wejscie(String nazwaPliku, int rzad) throws FileNotFoundException {
+    public Wejscie(String nazwaPliku, int rzad) throws FileNotFoundException {//wejscie z pliku
         this.plik = new File(nazwaPliku);
         this.odczyt = new Scanner(this.plik);
         Wejscie.rzadNGramow = rzad;
@@ -36,6 +36,15 @@ public class Wejscie {
         while (odczyt.hasNext()) {
             slowa.add(odczyt.next());
         }
+    }
+    
+    public Wejscie(ArrayList<String> slowa, int rzad){//wejscie z wysyłanych wiadomości
+        Wejscie.obecnyWyraz = 0;
+        Wejscie.rzadNGramow = rzad;
+        Wejscie.slowa = slowa;
+        
+        this.plik = null;
+        this.odczyt = null;
     }
 
     public final boolean hasNext() {
