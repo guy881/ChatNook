@@ -4,8 +4,6 @@
  * and open the template in the editor.
  15 maj: 
  -problem z dodawaniem wpisanych wiadomości do bazy, nowe ngramy łączą się ze starymi,
- -skomplikowany konstruktor w klasie NGram
- -Czasami generowane są niepełne ngramy, doczytać jak w konstruktorze zainicjować pusty obiekt, czy coś takiego
  */
 package convert;
 
@@ -180,10 +178,14 @@ public class ChatNook extends javax.swing.JFrame {
         wiadomosci.append("Ty: ");
         wiadomosci.append(wiadomosc + "\n\n");
         wprowadzanieTekstu.setText("");
+        
         String[] wprowadzoneSlowa = wiadomosc.split(" ");
-        slowa.addAll(Arrays.asList(wprowadzoneSlowa));
-//        wprowadzNGramyDoBazy();
-//        wypiszNGramy();
+        ArrayList<String> wiadomosciList = new ArrayList<>();
+        wiadomosciList.addAll(Arrays.asList(wprowadzoneSlowa));
+        Wejscie wejscieWiadomosci = new Wejscie(wiadomosciList, rzad);
+        wprowadzNGramyDoBazy(wejscieWiadomosci);
+        System.out.println("\n");
+        wypiszNGramy();
     }//GEN-LAST:event_wyslijButActionPerformed
 
     private void wprowadzanieTekstuKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_wprowadzanieTekstuKeyTyped
@@ -269,7 +271,6 @@ public class ChatNook extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private static String path = "/home/pawel/NetBeansProjects/Chat/src/ChatJadro/test";
-    private static ArrayList<String> slowa;
     private static TreeSet<NGram> baza;
     private static int rzad = 3;
 }
