@@ -2,10 +2,10 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
-15 maj: 
--problem z dodawaniem wpisanych wiadomości do bazy, nowe ngramy łączą się ze starymi,
--skomplikowany konstruktor w klasie NGram
--Czasami generowane są niepełne ngramy, doczytać jak w konstruktorze zainicjować pusty obiekt, czy coś takiego
+ 15 maj: 
+ -problem z dodawaniem wpisanych wiadomości do bazy, nowe ngramy łączą się ze starymi,
+ -skomplikowany konstruktor w klasie NGram
+ -Czasami generowane są niepełne ngramy, doczytać jak w konstruktorze zainicjować pusty obiekt, czy coś takiego
  */
 package convert;
 
@@ -14,8 +14,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -164,7 +162,8 @@ public class ChatNook extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void UstawieniaButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UstawieniaButActionPerformed
-        // TODO add your handling code here:
+        UstawieniaFrame ustawienia = new UstawieniaFrame();
+        ustawienia.setVisible(true);
     }//GEN-LAST:event_UstawieniaButActionPerformed
 
     private void statystykiButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statystykiButActionPerformed
@@ -183,25 +182,22 @@ public class ChatNook extends javax.swing.JFrame {
         wprowadzanieTekstu.setText("");
         String[] wprowadzoneSlowa = wiadomosc.split(" ");
         slowa.addAll(Arrays.asList(wprowadzoneSlowa));
-        wprowadzNGramyDoBazy();
-        wypiszNGramy();
+//        wprowadzNGramyDoBazy();
+//        wypiszNGramy();
     }//GEN-LAST:event_wyslijButActionPerformed
 
     private void wprowadzanieTekstuKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_wprowadzanieTekstuKeyTyped
 
     }//GEN-LAST:event_wprowadzanieTekstuKeyTyped
 
-    private static void wprowadzNGramyDoBazy() {
+    private static void wprowadzNGramyDoBazy(Wejscie wejscie) {
         NGram ngram = null;
-        do {
-            try {
-                ngram = new NGram(slowa);
-                baza.add(ngram);
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(ChatNook.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } while (ngram.getObecnyWyraz() < slowa.size());
-
+        String pref;
+        String suf;
+        while ((pref = wejscie.nextPref()) != null && (suf = wejscie.nextSuf()) != null) {
+            ngram = new NGram(pref, suf);
+            baza.add(ngram);
+        }
     }
 
     /**
@@ -238,28 +234,23 @@ public class ChatNook extends javax.swing.JFrame {
             }
         });
 
-        TekstyBazowe teksty = null;
-        slowa = new ArrayList<>(512);
+        Wejscie wejscie = null;
 
         try {
-            teksty = new TekstyBazowe(path);
+            wejscie = new Wejscie(path, rzad);
         } catch (FileNotFoundException e) {
             System.out.println("zly plik");
             System.exit(1);
         }
-        while (teksty.hasNext()) {
-            slowa.add(teksty.dajSlowo());
-        }
-
         baza = new TreeSet<>();
 
-        wprowadzNGramyDoBazy();
+        wprowadzNGramyDoBazy(wejscie);
         wypiszNGramy();
     }
 
     private static void wypiszNGramy() {
-        for (NGram t : baza) {
-            System.out.println(t.toString());
+        for (NGram ngram : baza) {
+            System.out.println(ngram.toString());
         }
 
     }
@@ -280,4 +271,5 @@ public class ChatNook extends javax.swing.JFrame {
     private static String path = "/home/pawel/NetBeansProjects/Chat/src/ChatJadro/test";
     private static ArrayList<String> slowa;
     private static TreeSet<NGram> baza;
+    private static int rzad = 3;
 }

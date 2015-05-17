@@ -5,8 +5,6 @@
  */
 package convert;
 
-import java.awt.event.WindowEvent;
-
 /**
  *
  * @author pawel
@@ -42,12 +40,14 @@ public class StatystykiFrame extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
         setPreferredSize(new java.awt.Dimension(730, 530));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Najczęściej występujące n-gramy", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         jPanel1.setToolTipText("");
 
+        jProgressBar1.setBackground(new java.awt.Color(9, 5, 1));
         jProgressBar1.setToolTipText("");
         jProgressBar1.setValue(50);
         jProgressBar1.setName(""); // NOI18N
