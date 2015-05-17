@@ -11,6 +11,8 @@ import ChatJadro.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 import java.util.TreeSet;
 
 /**
@@ -178,19 +180,33 @@ public class ChatNook extends javax.swing.JFrame {
         wiadomosci.append("Ty: ");
         wiadomosci.append(wiadomosc + "\n\n");
         wprowadzanieTekstu.setText("");
-        
+
         String[] wprowadzoneSlowa = wiadomosc.split(" ");
         ArrayList<String> wiadomosciList = new ArrayList<>();
         wiadomosciList.addAll(Arrays.asList(wprowadzoneSlowa));
         Wejscie wejscieWiadomosci = new Wejscie(wiadomosciList, rzad);
         wprowadzNGramyDoBazy(wejscieWiadomosci);
-        System.out.println("\n");
-        wypiszNGramy();
+        System.out.println("\n");//do debugowania
+//        wypiszNGramy();//do debugowania
+        wiadomosci.append(odpisz());
     }//GEN-LAST:event_wyslijButActionPerformed
 
     private void wprowadzanieTekstuKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_wprowadzanieTekstuKeyTyped
 
     }//GEN-LAST:event_wprowadzanieTekstuKeyTyped
+
+    private static String odpisz() {
+        StringBuilder sb = new StringBuilder("X: ");
+        Random rand = new Random();
+        int iloscNGramow = rand.nextInt(10);
+        for (int i = 0; i < iloscNGramow; i++) {
+            int index = rand.nextInt(bazaLista.size());
+            sb.append(bazaLista.get(index).getNGram());
+            sb.append(" ");
+        }
+        sb.append("\n\n");
+        return sb.toString();
+    }
 
     private static void wprowadzNGramyDoBazy(Wejscie wejscie) {
         NGram ngram = null;
@@ -247,7 +263,8 @@ public class ChatNook extends javax.swing.JFrame {
         baza = new TreeSet<>();
 
         wprowadzNGramyDoBazy(wejscie);
-        wypiszNGramy();
+//        wypiszNGramy();
+        bazaLista = new ArrayList<>(baza);
     }
 
     private static void wypiszNGramy() {
@@ -270,7 +287,8 @@ public class ChatNook extends javax.swing.JFrame {
     private javax.swing.JButton wyslijBut;
     // End of variables declaration//GEN-END:variables
 
-    private static String path = "/home/pawel/NetBeansProjects/Chat/src/ChatJadro/test";
+    private static String path = "/home/pawel/NetBeansProjects/Chat/src/ChatJadro/pan-tadeusz.txt";
     private static TreeSet<NGram> baza;
+    private static List<NGram> bazaLista;
     private static int rzad = 3;
 }
