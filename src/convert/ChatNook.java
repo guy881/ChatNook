@@ -74,7 +74,6 @@ public class ChatNook extends javax.swing.JFrame {
 
         wprowadzanieTekstu.setColumns(20);
         wprowadzanieTekstu.setRows(5);
-        wprowadzanieTekstu.setText("");
         wprowadzanieTekstu.setToolTipText("Tutaj wprowadź tekst, który chcesz wysłać.");
         wprowadzanieTekstu.setNextFocusableComponent(wprowadzanieTekstu);
         wprowadzanieTekstu.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -118,6 +117,7 @@ public class ChatNook extends javax.swing.JFrame {
         jScrollPane1.setViewportView(wiadomosci);
         wiadomosci.setEditable(false);
         wiadomosci.setLineWrap(true);
+        wiadomosci.setWrapStyleWord(true);
 
         javax.swing.GroupLayout panelGlownyLayout = new javax.swing.GroupLayout(panelGlowny);
         panelGlowny.setLayout(panelGlownyLayout);
@@ -165,7 +165,8 @@ public class ChatNook extends javax.swing.JFrame {
     }//GEN-LAST:event_UstawieniaButActionPerformed
 
     private void statystykiButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statystykiButActionPerformed
-        StatystykiFrame statystykiOkno = new StatystykiFrame();
+        stat = new Statystyki(bazaLista, 10);
+        StatystykiFrame statystykiOkno = new StatystykiFrame(stat);
         statystykiOkno.setVisible(true);
     }//GEN-LAST:event_statystykiButActionPerformed
 
@@ -184,7 +185,7 @@ public class ChatNook extends javax.swing.JFrame {
         wiadomosciList.addAll(Arrays.asList(wprowadzoneSlowa));
         Wejscie wejscieWiadomosci = new Wejscie(wiadomosciList, rzad);
         wprowadzNGramyDoBazy(wejscieWiadomosci);
-        System.out.println("\n");//do debugowania
+//        System.out.println("\n");//do debugowania
 //        wypiszNGramy();//do debugowania
         wiadomosci.append(odpisz());
     }//GEN-LAST:event_wyslijButActionPerformed
@@ -197,6 +198,9 @@ public class ChatNook extends javax.swing.JFrame {
         StringBuilder sb = new StringBuilder("X: ");
         Random rand = new Random();
         int iloscNGramow = rand.nextInt(10);
+        if (iloscNGramow == 0) {
+            iloscNGramow = rand.nextInt(10);
+        }
         for (int i = 0; i < iloscNGramow; i++) {
             int index = rand.nextInt(bazaLista.size());
             sb.append(bazaLista.get(index).getNGram());
@@ -263,13 +267,20 @@ public class ChatNook extends javax.swing.JFrame {
         wprowadzNGramyDoBazy(wejscie);
 //        wypiszNGramy();
         bazaLista = new ArrayList<>(baza);
+        bazaLista.sort(new ComparatorNGramWyst());
+        
+        int i = 0;
+        for(NGram n: bazaLista){
+            if(++i == 100)
+                break;
+            System.out.println(n.getNGram() + " " + n.getSufiksWyst());
+        }
     }
 
     private static void wypiszNGramy() {
         for (NGram ngram : baza) {
             System.out.println(ngram.toString());
         }
-
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -287,6 +298,7 @@ public class ChatNook extends javax.swing.JFrame {
 
     private static String path = "/home/pawel/NetBeansProjects/Chat/src/ChatJadro/pan-tadeusz.txt";
     private static TreeSet<NGram> baza;
+    private static Statystyki stat;
     private static List<NGram> bazaLista;
     private static int rzad = 3;
 }

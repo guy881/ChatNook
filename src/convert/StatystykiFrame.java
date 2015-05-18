@@ -5,6 +5,8 @@
  */
 package convert;
 
+import ChatJadro.NGram;
+
 /**
  *
  * @author pawel
@@ -14,8 +16,16 @@ public class StatystykiFrame extends javax.swing.JFrame {
     /**
      * Creates new form StatystykiFrame
      */
-    public StatystykiFrame() {
+    public StatystykiFrame(Statystyki stat) {
+        NGram n1 = stat.getNGram(0);
+        if(n1 != null){
+            nGram1txt.setText("sdadsa");
+        }
         initComponents();
+    }
+
+    private StatystykiFrame() {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -28,17 +38,18 @@ public class StatystykiFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jProgressBar1 = new javax.swing.JProgressBar();
-        jProgressBar2 = new javax.swing.JProgressBar();
-        jProgressBar5 = new javax.swing.JProgressBar();
-        jProgressBar4 = new javax.swing.JProgressBar();
-        jProgressBar3 = new javax.swing.JProgressBar();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        nGram1Bar = new javax.swing.JProgressBar();
+        nGram4Bar = new javax.swing.JProgressBar();
+        nGram5Bar = new javax.swing.JProgressBar();
+        nGram2Bar = new javax.swing.JProgressBar();
+        nGram3Bar = new javax.swing.JProgressBar();
+        nGram1 = new javax.swing.JLabel();
+        nGram2 = new javax.swing.JLabel();
+        nGram3 = new javax.swing.JLabel();
+        nGram4 = new javax.swing.JLabel();
+        nGram5 = new javax.swing.JLabel();
+        nGram1txt = new javax.swing.JTextField();
+        zamknijBut = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -47,38 +58,38 @@ public class StatystykiFrame extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Najczęściej występujące n-gramy", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         jPanel1.setToolTipText("");
 
-        jProgressBar1.setBackground(new java.awt.Color(9, 5, 1));
-        jProgressBar1.setToolTipText("");
-        jProgressBar1.setValue(50);
-        jProgressBar1.setName(""); // NOI18N
-        jProgressBar1.setString("210");
-        jProgressBar1.setStringPainted(true);
+        nGram1Bar.setBackground(new java.awt.Color(9, 5, 1));
+        nGram1Bar.setToolTipText("");
+        nGram1Bar.setValue(50);
+        nGram1Bar.setName(""); // NOI18N
+        nGram1Bar.setString("210");
+        nGram1Bar.setStringPainted(true);
 
-        jProgressBar2.setValue(7);
-        jProgressBar2.setString("31");
-        jProgressBar2.setStringPainted(true);
+        nGram4Bar.setValue(7);
+        nGram4Bar.setString("31");
+        nGram4Bar.setStringPainted(true);
 
-        jProgressBar5.setValue(3);
-        jProgressBar5.setString("7");
-        jProgressBar5.setStringPainted(true);
+        nGram5Bar.setValue(3);
+        nGram5Bar.setString("7");
+        nGram5Bar.setStringPainted(true);
 
-        jProgressBar4.setValue(25);
-        jProgressBar4.setString("115");
-        jProgressBar4.setStringPainted(true);
+        nGram2Bar.setValue(25);
+        nGram2Bar.setString("115");
+        nGram2Bar.setStringPainted(true);
 
-        jProgressBar3.setValue(10);
-        jProgressBar3.setString("60");
-        jProgressBar3.setStringPainted(true);
+        nGram3Bar.setValue(10);
+        nGram3Bar.setString("60");
+        nGram3Bar.setStringPainted(true);
 
-        jLabel2.setText("ngram #1");
+        nGram1.setText("ngram #1");
 
-        jLabel3.setText("ngram #2");
+        nGram2.setText("ngram #2");
 
-        jLabel4.setText("ngram #3");
+        nGram3.setText("ngram #3");
 
-        jLabel5.setText("ngram #4");
+        nGram4.setText("ngram #4");
 
-        jLabel6.setText("ngram #5");
+        nGram5.setText("ngram #5");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -88,57 +99,61 @@ public class StatystykiFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(216, 216, 216)
-                        .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(nGram1)
+                        .addGap(18, 18, 18)
+                        .addComponent(nGram1txt, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(100, 100, 100)
+                        .addComponent(nGram1Bar, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                        .addComponent(nGram2)
                         .addGap(216, 216, 216)
-                        .addComponent(jProgressBar4, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(nGram2Bar, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
+                        .addComponent(nGram3)
                         .addGap(216, 216, 216)
-                        .addComponent(jProgressBar3, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(nGram3Bar, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
+                        .addComponent(nGram4)
                         .addGap(216, 216, 216)
-                        .addComponent(jProgressBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(nGram4Bar, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
+                        .addComponent(nGram5)
                         .addGap(216, 216, 216)
-                        .addComponent(jProgressBar5, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(nGram5Bar, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(83, 83, 83)
+                .addGap(78, 78, 78)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(nGram5, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2))
+                                    .addComponent(nGram1Bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(nGram1)
+                                        .addComponent(nGram1txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(61, 61, 61)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jProgressBar4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3))
+                                    .addComponent(nGram2Bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(nGram2))
                                 .addGap(60, 60, 60)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jProgressBar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4))
+                                    .addComponent(nGram3Bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(nGram3))
                                 .addGap(60, 60, 60)
-                                .addComponent(jProgressBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel5))
+                                .addComponent(nGram4Bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(nGram4))
                         .addGap(60, 60, 60)
-                        .addComponent(jProgressBar5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(nGram5Bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
-        jButton1.setText("Zamknij");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        zamknijBut.setText("Zamknij");
+        zamknijBut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                zamknijButActionPerformed(evt);
             }
         });
 
@@ -148,7 +163,7 @@ public class StatystykiFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(640, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(zamknijBut)
                 .addGap(43, 43, 43))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -161,16 +176,16 @@ public class StatystykiFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(zamknijBut)
                 .addGap(24, 24, 24))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void zamknijButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zamknijButActionPerformed
     this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_zamknijButActionPerformed
 
     /**
      * @param args the command line arguments
@@ -208,17 +223,18 @@ public class StatystykiFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JProgressBar jProgressBar1;
-    private javax.swing.JProgressBar jProgressBar2;
-    private javax.swing.JProgressBar jProgressBar3;
-    private javax.swing.JProgressBar jProgressBar4;
-    private javax.swing.JProgressBar jProgressBar5;
+    private javax.swing.JLabel nGram1;
+    private javax.swing.JProgressBar nGram1Bar;
+    private javax.swing.JTextField nGram1txt;
+    private javax.swing.JLabel nGram2;
+    private javax.swing.JProgressBar nGram2Bar;
+    private javax.swing.JLabel nGram3;
+    private javax.swing.JProgressBar nGram3Bar;
+    private javax.swing.JLabel nGram4;
+    private javax.swing.JProgressBar nGram4Bar;
+    private javax.swing.JLabel nGram5;
+    private javax.swing.JProgressBar nGram5Bar;
+    private javax.swing.JButton zamknijBut;
     // End of variables declaration//GEN-END:variables
 }
