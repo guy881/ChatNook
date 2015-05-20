@@ -165,8 +165,10 @@ public class ChatNook extends javax.swing.JFrame {
     }//GEN-LAST:event_UstawieniaButActionPerformed
 
     private void statystykiButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statystykiButActionPerformed
+        sortujBazaLista();
         stat = new Statystyki(bazaLista, 10);
-        StatystykiFrame statystykiOkno = new StatystykiFrame(stat);
+        StatystykiFrame statystykiOkno = new StatystykiFrame();
+        statystykiOkno.odswiezNajczestsze(stat);
         statystykiOkno.setVisible(true);
     }//GEN-LAST:event_statystykiButActionPerformed
 
@@ -185,6 +187,7 @@ public class ChatNook extends javax.swing.JFrame {
         wiadomosciList.addAll(Arrays.asList(wprowadzoneSlowa));
         Wejscie wejscieWiadomosci = new Wejscie(wiadomosciList, rzad);
         wprowadzNGramyDoBazy(wejscieWiadomosci);
+        bazaLista = new ArrayList<>(baza); //aktualizuje liste o nowe n-gramy
 //        System.out.println("\n");//do debugowania
 //        wypiszNGramy();//do debugowania
         wiadomosci.append(odpisz());
@@ -218,6 +221,11 @@ public class ChatNook extends javax.swing.JFrame {
             ngram = new NGram(pref, suf);
             baza.add(ngram);
         }
+    }
+
+    private static void sortujBazaLista() {
+        bazaLista = new ArrayList<>(baza);
+        bazaLista.sort(new ComparatorNGramWyst());
     }
 
     /**
@@ -267,14 +275,7 @@ public class ChatNook extends javax.swing.JFrame {
         wprowadzNGramyDoBazy(wejscie);
 //        wypiszNGramy();
         bazaLista = new ArrayList<>(baza);
-        bazaLista.sort(new ComparatorNGramWyst());
-        
-        int i = 0;
-        for(NGram n: bazaLista){
-            if(++i == 100)
-                break;
-            System.out.println(n.getNGram() + " " + n.getSufiksWyst());
-        }
+        sortujBazaLista();
     }
 
     private static void wypiszNGramy() {
@@ -296,7 +297,7 @@ public class ChatNook extends javax.swing.JFrame {
     private javax.swing.JButton wyslijBut;
     // End of variables declaration//GEN-END:variables
 
-    private static String path = "/home/pawel/NetBeansProjects/Chat/src/ChatJadro/pan-tadeusz.txt";
+    private static String path = "/home/pawel/NetBeansProjects/Chat/src/ChatJadro/test";
     private static TreeSet<NGram> baza;
     private static Statystyki stat;
     private static List<NGram> bazaLista;

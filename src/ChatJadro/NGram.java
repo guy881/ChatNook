@@ -6,8 +6,6 @@
 package ChatJadro;
 
 import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -88,13 +86,14 @@ public class NGram implements Comparable<NGram> {
             }
         }
     }
+    
 
     public static void main(String args[]) throws FileNotFoundException {
         Wejscie t = null;
         try {
             t = new Wejscie("/home/pawel/NetBeansProjects/Chat/src/ChatJadro/test", 3);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(NGram.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Nie znaleziono pliku");
         }
         NGram[] ngramy = new NGram[100];
 

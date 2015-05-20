@@ -29,9 +29,9 @@ public class UstawieniaFrame extends javax.swing.JFrame {
 
         jLabel2 = new javax.swing.JLabel();
         plikWejsciowy = new javax.swing.JPanel();
-        jFileChooser1 = new javax.swing.JFileChooser();
+        wyborPliku = new javax.swing.JFileChooser();
         rzadNGramow = new javax.swing.JPanel();
-        jSpinner1 = new javax.swing.JSpinner();
+        wyborRzeduNGramow = new javax.swing.JSpinner();
         zapiszBut = new javax.swing.JButton();
         anulujBut = new javax.swing.JButton();
 
@@ -41,9 +41,9 @@ public class UstawieniaFrame extends javax.swing.JFrame {
 
         plikWejsciowy.setBorder(javax.swing.BorderFactory.createTitledBorder("Plik wejściowy"));
 
-        jFileChooser1.addActionListener(new java.awt.event.ActionListener() {
+        wyborPliku.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFileChooser1ActionPerformed(evt);
+                wyborPlikuActionPerformed(evt);
             }
         });
 
@@ -53,20 +53,20 @@ public class UstawieniaFrame extends javax.swing.JFrame {
             plikWejsciowyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(plikWejsciowyLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jFileChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(wyborPliku, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         plikWejsciowyLayout.setVerticalGroup(
             plikWejsciowyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(plikWejsciowyLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jFileChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(wyborPliku, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         rzadNGramow.setBorder(javax.swing.BorderFactory.createTitledBorder("Rząd n-gramów"));
 
-        jSpinner1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        wyborRzeduNGramow.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout rzadNGramowLayout = new javax.swing.GroupLayout(rzadNGramow);
         rzadNGramow.setLayout(rzadNGramowLayout);
@@ -74,14 +74,14 @@ public class UstawieniaFrame extends javax.swing.JFrame {
             rzadNGramowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rzadNGramowLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(wyborRzeduNGramow, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(389, Short.MAX_VALUE))
         );
         rzadNGramowLayout.setVerticalGroup(
             rzadNGramowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rzadNGramowLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(wyborRzeduNGramow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -133,9 +133,9 @@ public class UstawieniaFrame extends javax.swing.JFrame {
     this.dispose();
     }//GEN-LAST:event_anulujButActionPerformed
 
-    private void jFileChooser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFileChooser1ActionPerformed
+    private void wyborPlikuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wyborPlikuActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jFileChooser1ActionPerformed
+    }//GEN-LAST:event_wyborPlikuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -174,11 +174,11 @@ public class UstawieniaFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton anulujBut;
-    private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JPanel plikWejsciowy;
     private javax.swing.JPanel rzadNGramow;
+    private javax.swing.JFileChooser wyborPliku;
+    private javax.swing.JSpinner wyborRzeduNGramow;
     private javax.swing.JButton zapiszBut;
     // End of variables declaration//GEN-END:variables
 }

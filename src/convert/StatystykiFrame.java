@@ -16,16 +16,43 @@ public class StatystykiFrame extends javax.swing.JFrame {
     /**
      * Creates new form StatystykiFrame
      */
-    public StatystykiFrame(Statystyki stat) {
-        NGram n1 = stat.getNGram(0);
-        if(n1 != null){
-            nGram1txt.setText("sdadsa");
-        }
+    public StatystykiFrame() {
         initComponents();
     }
 
-    private StatystykiFrame() {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void odswiezNajczestsze(Statystyki stat) {
+        NGram[] najczestsze = new NGram[10];
+
+        for (int i = 0; i < 10; i++) {
+            najczestsze[i] = stat.getNGram(i);
+            if (najczestsze[i] == null) {
+                break;
+            }
+            
+        }try{
+        nGram1.setText(najczestsze[0].getNGram());
+        nGram2.setText(najczestsze[1].getNGram());
+        nGram3.setText(najczestsze[2].getNGram());
+        nGram4.setText(najczestsze[3].getNGram());
+        nGram5.setText(najczestsze[4].getNGram());
+        }
+        catch(NullPointerException e){
+            
+        }
+        int wszystkieWystapienia = 0;
+        for( int i = 0; i < 5; i++)
+            wszystkieWystapienia += najczestsze[i].getSufiksWyst();
+        nGram1Bar.setValue(100 *najczestsze[0].getSufiksWyst()/wszystkieWystapienia);
+        nGram2Bar.setValue(100 *najczestsze[1].getSufiksWyst()/wszystkieWystapienia);
+        nGram3Bar.setValue(100 *najczestsze[2].getSufiksWyst()/wszystkieWystapienia);
+        nGram4Bar.setValue(100 *najczestsze[3].getSufiksWyst()/wszystkieWystapienia);
+        nGram5Bar.setValue(100 *najczestsze[4].getSufiksWyst()/wszystkieWystapienia);
+        
+        nGram1Bar.setString("" + najczestsze[0].getSufiksWyst());
+        nGram2Bar.setString("" + najczestsze[1].getSufiksWyst());
+        nGram3Bar.setString("" + najczestsze[2].getSufiksWyst());
+        nGram4Bar.setString("" + najczestsze[3].getSufiksWyst());
+        nGram5Bar.setString("" + najczestsze[4].getSufiksWyst());
     }
 
     /**
@@ -36,6 +63,7 @@ public class StatystykiFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
         nGram1Bar = new javax.swing.JProgressBar();
@@ -48,15 +76,15 @@ public class StatystykiFrame extends javax.swing.JFrame {
         nGram3 = new javax.swing.JLabel();
         nGram4 = new javax.swing.JLabel();
         nGram5 = new javax.swing.JLabel();
-        nGram1txt = new javax.swing.JTextField();
         zamknijBut = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
-        setPreferredSize(new java.awt.Dimension(730, 530));
+        setPreferredSize(new java.awt.Dimension(1050, 700));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Najczęściej występujące n-gramy", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         jPanel1.setToolTipText("");
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         nGram1Bar.setBackground(new java.awt.Color(9, 5, 1));
         nGram1Bar.setToolTipText("");
@@ -64,91 +92,100 @@ public class StatystykiFrame extends javax.swing.JFrame {
         nGram1Bar.setName(""); // NOI18N
         nGram1Bar.setString("210");
         nGram1Bar.setStringPainted(true);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 383;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(100, 216, 0, 6);
+        jPanel1.add(nGram1Bar, gridBagConstraints);
 
         nGram4Bar.setValue(7);
         nGram4Bar.setString("31");
         nGram4Bar.setStringPainted(true);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.ipadx = 383;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(60, 216, 0, 6);
+        jPanel1.add(nGram4Bar, gridBagConstraints);
 
         nGram5Bar.setValue(3);
         nGram5Bar.setString("7");
         nGram5Bar.setStringPainted(true);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.ipadx = 383;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(60, 216, 6, 6);
+        jPanel1.add(nGram5Bar, gridBagConstraints);
 
         nGram2Bar.setValue(25);
         nGram2Bar.setString("115");
         nGram2Bar.setStringPainted(true);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 383;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(66, 216, 0, 6);
+        jPanel1.add(nGram2Bar, gridBagConstraints);
 
         nGram3Bar.setValue(10);
         nGram3Bar.setString("60");
         nGram3Bar.setStringPainted(true);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 383;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(60, 216, 0, 6);
+        jPanel1.add(nGram3Bar, gridBagConstraints);
 
         nGram1.setText("ngram #1");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(100, 18, 0, 0);
+        jPanel1.add(nGram1, gridBagConstraints);
 
         nGram2.setText("ngram #2");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(66, 18, 0, 0);
+        jPanel1.add(nGram2, gridBagConstraints);
 
         nGram3.setText("ngram #3");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(60, 18, 0, 0);
+        jPanel1.add(nGram3, gridBagConstraints);
 
         nGram4.setText("ngram #4");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(65, 18, 0, 0);
+        jPanel1.add(nGram4, gridBagConstraints);
 
         nGram5.setText("ngram #5");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(nGram1)
-                        .addGap(18, 18, 18)
-                        .addComponent(nGram1txt, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(100, 100, 100)
-                        .addComponent(nGram1Bar, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(nGram2)
-                        .addGap(216, 216, 216)
-                        .addComponent(nGram2Bar, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(nGram3)
-                        .addGap(216, 216, 216)
-                        .addComponent(nGram3Bar, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(nGram4)
-                        .addGap(216, 216, 216)
-                        .addComponent(nGram4Bar, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(nGram5)
-                        .addGap(216, 216, 216)
-                        .addComponent(nGram5Bar, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(78, 78, 78)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nGram5, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(nGram1Bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(nGram1)
-                                        .addComponent(nGram1txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(61, 61, 61)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(nGram2Bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(nGram2))
-                                .addGap(60, 60, 60)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(nGram3Bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(nGram3))
-                                .addGap(60, 60, 60)
-                                .addComponent(nGram4Bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(nGram4))
-                        .addGap(60, 60, 60)
-                        .addComponent(nGram5Bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(65, 18, 6, 0);
+        jPanel1.add(nGram5, gridBagConstraints);
 
         zamknijBut.setText("Zamknij");
         zamknijBut.addActionListener(new java.awt.event.ActionListener() {
@@ -162,7 +199,7 @@ public class StatystykiFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(640, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(zamknijBut)
                 .addGap(43, 43, 43))
             .addGroup(layout.createSequentialGroup()
@@ -184,7 +221,7 @@ public class StatystykiFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void zamknijButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zamknijButActionPerformed
-    this.dispose();
+        this.dispose();
     }//GEN-LAST:event_zamknijButActionPerformed
 
     /**
@@ -222,11 +259,11 @@ public class StatystykiFrame extends javax.swing.JFrame {
         });
     }
 
+    private javax.swing.JLabel[] ngramy;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel nGram1;
     private javax.swing.JProgressBar nGram1Bar;
-    private javax.swing.JTextField nGram1txt;
     private javax.swing.JLabel nGram2;
     private javax.swing.JProgressBar nGram2Bar;
     private javax.swing.JLabel nGram3;
