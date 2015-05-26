@@ -6,24 +6,49 @@
 package convert;
 
 import ChatJadro.*;
+import java.awt.event.ActionEvent;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
 
 /**
  *
  * @author pawel
  */
-public class ChatNook extends javax.swing.JFrame {
+public class ChatNook extends javax.swing.JFrame implements DocumentListener{
 
     /**
      * Creates new form ChatNook
      */
     public ChatNook() {
         initComponents();
+        wprowadzanieTekstu.getDocument().addDocumentListener(this);
+        InputMap im = wprowadzanieTekstu.getInputMap();
+        ActionMap am = wprowadzanieTekstu.getActionMap();
+
+        try {
+            slownik = new Slownik("/home/pawel/NetBeansProjects/ChatNook/src/ChatJadro/wordsEn.txt");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ChatNook.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        im.put(KeyStroke.getKeyStroke("ENTER"), potwierdzAkcje);
+        am.put(potwierdzAkcje, new PotwierdzAkcje());
+        
     }
 
     /**
@@ -118,6 +143,7 @@ public class ChatNook extends javax.swing.JFrame {
         wiadomosci.setEditable(false);
         wiadomosci.setLineWrap(true);
         wiadomosci.setWrapStyleWord(true);
+        wiadomosci.setFocusable(false);
 
         javax.swing.GroupLayout panelGlownyLayout = new javax.swing.GroupLayout(panelGlowny);
         panelGlowny.setLayout(panelGlownyLayout);
@@ -273,7 +299,7 @@ public class ChatNook extends javax.swing.JFrame {
         baza = new TreeSet<>();
 
         wprowadzNGramyDoBazy(wejscie);
-//        wypiszNGramy();
+        wypiszNGramy();
         bazaLista = new ArrayList<>(baza);
         sortujBazaLista();
     }
@@ -283,7 +309,101 @@ public class ChatNook extends javax.swing.JFrame {
             System.out.println(ngram.toString());
         }
     }
+    
+     @Override
+    public void insertUpdate(DocumentEvent ev) {
+        if (ev.getLength() != 1) {
+            return;
+        }
 
+        int pos = ev.getOffset();
+        String content = null;
+        try {
+            content = wprowadzanieTekstu.getText(0, pos + 1);
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+
+        // Find where the word starts
+        int w;
+        for (w = pos; w >= 0; w--) {
+            if (!Character.isLetter(content.charAt(w))) {
+                break;
+            }
+        }
+        if (pos - w < 2) {
+            // Too few chars
+            return;
+        }
+        
+        if(content == null)
+            return;
+
+        ArrayList<String> slowaArray = slownik.getSlowa();
+        String prefix = content.substring(w + 1).toLowerCase();
+        slowaArray.sort(null);
+        int n = Collections.binarySearch(slowaArray, prefix);
+        if (n < 0 && -n <= slowaArray.size()) {
+            String match = slowaArray.get(-n - 1);
+            if (match.startsWith(prefix)) {
+                // A completion is found
+                String completion = match.substring(pos - w);
+                // We cannot modify Document from within notification,
+                // so we submit a task that does the change later
+                SwingUtilities.invokeLater(
+                        new Dopelnij(completion, pos + 1));
+            }
+        } else {
+            // Nothing found
+            tryb = Tryb.WPROWADZANIE;
+        }
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent e) {
+    }
+    
+    private class Dopelnij implements Runnable {
+
+        String slowoZCzatu;
+        int pozycja;
+
+        public Dopelnij(String slowoZCzatu, int pozycja) {
+            this.slowoZCzatu = slowoZCzatu;
+            this.pozycja = pozycja;
+        }
+
+        @Override
+        public void run() {
+            wprowadzanieTekstu.insert(slowoZCzatu, pozycja);
+            wprowadzanieTekstu.setCaretPosition(pozycja + slowoZCzatu.length());
+            wprowadzanieTekstu.moveCaretPosition(pozycja);
+            tryb = Tryb.DOPELNIANIE;
+        }
+    }
+
+    private class PotwierdzAkcje extends AbstractAction {
+
+        @Override
+        public void actionPerformed(ActionEvent ev) {
+            if (tryb == Tryb.DOPELNIANIE) {
+                int pos = wprowadzanieTekstu.getSelectionEnd();
+                wprowadzanieTekstu.insert(" ", pos);
+                wprowadzanieTekstu.setCaretPosition(pos + 1);
+                tryb = Tryb.WPROWADZANIE;
+            } else {
+                wprowadzanieTekstu.replaceSelection("\n");
+            }
+        }
+    }
+
+
+  
+  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton UstawieniaBut;
     private javax.swing.JDialog jDialog1;
@@ -302,4 +422,12 @@ public class ChatNook extends javax.swing.JFrame {
     private static Statystyki stat;
     private static List<NGram> bazaLista;
     private static int rzad = 3;
+    private static DopelnianieSlow dopelnianie;
+    private static enum Tryb {
+
+        WPROWADZANIE, DOPELNIANIE
+    };
+    private final String potwierdzAkcje = "confirm";
+    private Tryb tryb = Tryb.WPROWADZANIE;
+    private Slownik slownik;
 }
