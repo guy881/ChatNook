@@ -259,7 +259,6 @@ public class StatystykiFrame extends javax.swing.JFrame {
         });
     }
 
-    private javax.swing.JLabel[] ngramy;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel nGram1;

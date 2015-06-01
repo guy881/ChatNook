@@ -5,15 +5,22 @@
  */
 package convert;
 
+import java.util.prefs.Preferences;
+import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+
 /**
  *
  * @author pawel
  */
 public class UstawieniaFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form UstawieniaFrame
-     */
+    private static int staryRzad;
+    private static int nowyRzad;
+    private static Preferences preferencje;
+    
     public UstawieniaFrame() {
         initComponents();
     }
@@ -66,7 +73,13 @@ public class UstawieniaFrame extends javax.swing.JFrame {
 
         rzadNGramow.setBorder(javax.swing.BorderFactory.createTitledBorder("Rząd n-gramów"));
 
+        wyborRzeduNGramow.setModel(new javax.swing.SpinnerNumberModel(3, 1, 20, 1));
         wyborRzeduNGramow.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        wyborRzeduNGramow.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                wyborRzeduNGramowStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout rzadNGramowLayout = new javax.swing.GroupLayout(rzadNGramow);
         rzadNGramow.setLayout(rzadNGramowLayout);
@@ -86,6 +99,11 @@ public class UstawieniaFrame extends javax.swing.JFrame {
         );
 
         zapiszBut.setText("Zapisz");
+        zapiszBut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                zapiszButActionPerformed(evt);
+            }
+        });
 
         anulujBut.setText("Anuluj");
         anulujBut.addActionListener(new java.awt.event.ActionListener() {
@@ -137,6 +155,35 @@ public class UstawieniaFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_wyborPlikuActionPerformed
 
+    private void wyborRzeduNGramowStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_wyborRzeduNGramowStateChanged
+//   wyborRzeduNGramow.getEditor().;
+    }//GEN-LAST:event_wyborRzeduNGramowStateChanged
+
+    private void zapiszButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zapiszButActionPerformed
+        JTextField pole = getTextField(wyborRzeduNGramow);
+        System.out.println("zmiana " + pole.getText());
+        UstawieniaFrame.nowyRzad = Integer.parseInt(pole.getText());
+        if(staryRzad != nowyRzad ){ //zmideniono rzad n-gramow
+            preferencje.putInt("rzad", nowyRzad );
+        }
+        this.dispose();
+    }//GEN-LAST:event_zapiszButActionPerformed
+
+      private JFormattedTextField getTextField(JSpinner spinner) {
+        JComponent editor = spinner.getEditor(); 
+            return ((JSpinner.DefaultEditor)editor).getTextField();
+    }
+
+       public void inicujPreferencje(int rzad, Preferences preferencje){
+       UstawieniaFrame.staryRzad = rzad;
+       UstawieniaFrame.preferencje = preferencje;
+       JTextField pole = getTextField(wyborRzeduNGramow);
+       pole.setText(Integer.toString(rzad));
+    }
+    
+       public static int getNowyRzad() {
+        return nowyRzad;
+    }
     /**
      * @param args the command line arguments
      */
@@ -172,6 +219,7 @@ public class UstawieniaFrame extends javax.swing.JFrame {
         });
     }
 
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton anulujBut;
     private javax.swing.JLabel jLabel2;

@@ -16,6 +16,9 @@ import java.util.Random;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
+import java.util.prefs.Preferences;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -29,13 +32,18 @@ import javax.swing.text.BadLocationException;
  *
  * @author pawel
  */
-public class ChatNook extends javax.swing.JFrame implements DocumentListener{
+public class ChatNook extends javax.swing.JFrame implements DocumentListener {
 
     /**
      * Creates new form ChatNook
      */
     public ChatNook() {
         initComponents();
+        preferencje = Preferences.userRoot().node(this.getClass().getName());
+        String poleRzadu = "rzad";
+        String poleSciezki = "sciezka";
+        preferencje.putInt(poleRzadu, rzad);
+
         wprowadzanieTekstu.getDocument().addDocumentListener(this);
         InputMap im = wprowadzanieTekstu.getInputMap();
         ActionMap am = wprowadzanieTekstu.getActionMap();
@@ -48,7 +56,7 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener{
 
         im.put(KeyStroke.getKeyStroke("ENTER"), potwierdzAkcje);
         am.put(potwierdzAkcje, new PotwierdzAkcje());
-        
+
     }
 
     /**
@@ -114,6 +122,8 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener{
         jScrollPane2.setViewportView(wprowadzanieTekstu);
         wprowadzanieTekstu.setLineWrap(true);
         wprowadzanieTekstu.setWrapStyleWord(true);
+
+        wprowadzanieTekstu.requestFocusInWindow();
 
         wyslijBut.setBackground(new java.awt.Color(255, 122, 0));
         wyslijBut.setText("Wyślij");
@@ -187,7 +197,36 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener{
 
     private void UstawieniaButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UstawieniaButActionPerformed
         UstawieniaFrame ustawienia = new UstawieniaFrame();
+        ustawienia.inicujPreferencje( preferencje.getInt("rzad", rzad), preferencje);
+        preferencje.addPreferenceChangeListener(new PreferenceChangeListener() {
+
+            @Override
+            public void preferenceChange(PreferenceChangeEvent evt1) {
+                if (preferencje.getInt("rzad", rzad) != rzad) {
+                    System.out.println("zmieniono rzad n-gramow " + preferencje.getInt("rzad", rzad));
+                    rzad = preferencje.getInt("rzad", rzad);
+
+                    Wejscie wejscie = null;
+                    try {
+                        wejscie = new Wejscie(path, rzad);
+                    } catch (FileNotFoundException e) {
+                        System.out.println("zly plik");
+                    }
+                    baza = new TreeSet<>();
+
+                    wprowadzNGramyDoBazy(wejscie);
+                    wypiszNGramy();
+                    bazaLista = new ArrayList<>(baza);
+                    sortujBazaLista();
+                }
+            }
+        });
         ustawienia.setVisible(true);
+//        try {
+//            preferencje.wait();
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(ChatNook.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_UstawieniaButActionPerformed
 
     private void statystykiButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statystykiButActionPerformed
@@ -196,6 +235,7 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener{
         StatystykiFrame statystykiOkno = new StatystykiFrame();
         statystykiOkno.odswiezNajczestsze(stat);
         statystykiOkno.setVisible(true);
+        System.out.println(preferencje.getInt("rzad", 0));
     }//GEN-LAST:event_statystykiButActionPerformed
 
     private void wprowadzanieTekstuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_wprowadzanieTekstuMouseClicked
@@ -230,6 +270,8 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener{
         if (iloscNGramow == 0) {
             iloscNGramow = rand.nextInt(10);
         }
+        if(bazaLista.size() == 0)
+            return sb.toString();
         for (int i = 0; i < iloscNGramow; i++) {
             int index = rand.nextInt(bazaLista.size());
             sb.append(bazaLista.get(index).getNGram());
@@ -294,7 +336,6 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener{
             wejscie = new Wejscie(path, rzad);
         } catch (FileNotFoundException e) {
             System.out.println("zly plik");
-            System.exit(1);
         }
         baza = new TreeSet<>();
 
@@ -309,8 +350,8 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener{
             System.out.println(ngram.toString());
         }
     }
-    
-     @Override
+
+    @Override
     public void insertUpdate(DocumentEvent ev) {
         if (ev.getLength() != 1) {
             return;
@@ -335,9 +376,10 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener{
             // Too few chars
             return;
         }
-        
-        if(content == null)
+
+        if (content == null) {
             return;
+        }
 
         ArrayList<String> slowaArray = slownik.getSlowa();
         String prefix = content.substring(w + 1).toLowerCase();
@@ -366,7 +408,7 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener{
     @Override
     public void changedUpdate(DocumentEvent e) {
     }
-    
+
     private class Dopelnij implements Runnable {
 
         String slowoZCzatu;
@@ -402,8 +444,6 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener{
     }
 
 
-  
-  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton UstawieniaBut;
     private javax.swing.JDialog jDialog1;
@@ -417,12 +457,14 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener{
     private javax.swing.JButton wyslijBut;
     // End of variables declaration//GEN-END:variables
 
+    private static Preferences preferencje;
     private static String path = "/home/pawel/NetBeansProjects/Chat/src/ChatJadro/test";
     private static TreeSet<NGram> baza;
     private static Statystyki stat;
     private static List<NGram> bazaLista;
     private static int rzad = 3;
     private static DopelnianieSlow dopelnianie;
+
     private static enum Tryb {
 
         WPROWADZANIE, DOPELNIANIE
