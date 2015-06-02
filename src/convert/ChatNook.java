@@ -53,7 +53,7 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener {
             Logger.getLogger(ChatNook.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        im.put(KeyStroke.getKeyStroke("ENTER"), potwierdzAkcje);
+        im.put(KeyStroke.getKeyStroke("ENTER"), potwierdzAkcje);//dopelnianie tekstu
         am.put(potwierdzAkcje, new PotwierdzAkcje());
 
     }

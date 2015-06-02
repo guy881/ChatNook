@@ -8,7 +8,6 @@ package ChatJadro;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Scanner;
 import java.util.TreeSet;
 import java.util.logging.Level;
@@ -21,14 +20,12 @@ import java.util.logging.Logger;
 public class Slownik {
 
     private final ArrayList<String> slowa;
-    private String path;
     private Scanner bufor;
     public static TreeSet<String> slownikDrzewo;
 
     public Slownik(String path) throws FileNotFoundException {
         slowa = new ArrayList<>(512);
         if (path != null && !path.equals("")) {
-            this.path = path;
             bufor = new Scanner(new File(path));
             while (bufor.hasNext()) {
                 slowa.add(bufor.next());

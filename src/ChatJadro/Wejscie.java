@@ -12,8 +12,8 @@ import java.util.Scanner;
 
 /**
  *
- * @author pawel
- * Klasa wczytuje plik źródlowy i dzieli tekst na sufiksy i prefiksy
+ * @author pawel Klasa wczytuje plik źródlowy i dzieli tekst na sufiksy i
+ * prefiksy
  */
 public class Wejscie {
 
@@ -37,12 +37,12 @@ public class Wejscie {
             slowa.add(odczyt.next());
         }
     }
-    
-    public Wejscie(ArrayList<String> slowa, int rzad){//wejscie z wysyłanych wiadomości
+
+    public Wejscie(ArrayList<String> slowa, int rzad) {//wejscie z wysyłanych wiadomości
         Wejscie.obecnyWyraz = 0;
         Wejscie.rzadNGramow = rzad;
         Wejscie.slowa = slowa;
-        
+
         this.plik = null;
         this.odczyt = null;
     }
@@ -52,7 +52,14 @@ public class Wejscie {
     }
 
     public String nextPref() {
+        if (obecnyWyraz >= slowa.size()) {
+            return null;
+        }
+        if (rzadNGramow == 1) {
+            return slowa.get(obecnyWyraz++);
+        }
         StringBuilder pref = new StringBuilder();
+
         for (int i = 0; i < rzadNGramow - 1; i++) {
             if (i + obecnyWyraz >= slowa.size()) {
                 return null;
@@ -65,8 +72,11 @@ public class Wejscie {
     }
 
     public String nextSuf() {
+        if (rzadNGramow == 1) {
+            return "";
+        }
         int index = obecnyWyraz + 1;
-        if ( index < slowa.size()) {
+        if (index < slowa.size()) {
             return slowa.get(index);
         } else {
             return null;
@@ -78,14 +88,15 @@ public class Wejscie {
         String pref;
         String suf;
         try {
-            teksty = new Wejscie("/home/pawel/NetBeansProjects/Chat/src/ChatJadro/test", 3 );
+            teksty = new Wejscie("/home/pawel/NetBeansProjects/Chat/src/ChatJadro/test", 3);
         } catch (FileNotFoundException e) {
             System.out.println("zly plik");
         }
         if (teksty != null) {
             while (true) {
-                if((pref = teksty.nextPref()) == null || (suf = teksty.nextSuf()) == null )
+                if ((pref = teksty.nextPref()) == null || (suf = teksty.nextSuf()) == null) {
                     break;
+                }
                 System.out.println(pref + suf);
             }
         } else {
