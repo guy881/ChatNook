@@ -79,7 +79,7 @@ public class UstawieniaFrame extends javax.swing.JFrame {
 
         rzadNGramow.setBorder(javax.swing.BorderFactory.createTitledBorder("Rząd n-gramów"));
 
-        wyborRzeduNGramow.setModel(new javax.swing.SpinnerNumberModel(3, 1, 20, 1));
+        wyborRzeduNGramow.setModel(new javax.swing.SpinnerNumberModel(3, 1, 15, 1));
         wyborRzeduNGramow.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         wyborRzeduNGramow.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
