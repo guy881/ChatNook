@@ -159,18 +159,17 @@ public class UstawieniaFrame extends javax.swing.JFrame {
 
     private void wyborPlikuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wyborPlikuActionPerformed
         File plik = wyborPliku.getSelectedFile();
-        System.out.println(plik.getName());
+//        System.out.println(plik.getName()); // debug
         if(plik.canRead() && plik.getName().endsWith("txt"))
             preferencje.put("path", plik.getPath());
     }//GEN-LAST:event_wyborPlikuActionPerformed
 
     private void wyborRzeduNGramowStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_wyborRzeduNGramowStateChanged
-//   wyborRzeduNGramow.getEditor().;
+
     }//GEN-LAST:event_wyborRzeduNGramowStateChanged
 
     private void zapiszButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zapiszButActionPerformed
         JTextField pole = getTextField(wyborRzeduNGramow);
-        System.out.println("zmiana " + pole.getText());
         UstawieniaFrame.nowyRzad = Integer.parseInt(pole.getText());
         if(staryRzad != nowyRzad ){ //zmideniono rzad n-gramow
             preferencje.putInt("rzad", nowyRzad );
@@ -189,10 +188,7 @@ public class UstawieniaFrame extends javax.swing.JFrame {
        JTextField pole = getTextField(wyborRzeduNGramow);
        pole.setText(Integer.toString(rzad));
     }
-    
-       public static int getNowyRzad() {
-        return nowyRzad;
-    }
+
     /**
      * @param args the command line arguments
      */

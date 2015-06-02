@@ -14,8 +14,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.prefs.PreferenceChangeEvent;
 import java.util.prefs.PreferenceChangeListener;
 import java.util.prefs.Preferences;
@@ -39,10 +37,17 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener {
      */
     public ChatNook() {
         initComponents();
+        slowaZCzatu = new ArrayList<>();
+        /*
+         Obiekt preferencje, przechowuje ustawienia w programie i reaguje na ich zmianę.
+         Zawiera dwie wartości, rzad n-gramów oraz ścieżkę do pliku bazowego.
+         */
         preferencje = Preferences.userRoot().node(this.getClass().getName());
         preferencje.putInt("rzad", rzad);
         preferencje.put("path", path);
-
+        /*
+         Dopelnianie tekstu podczas pisania.
+         */
         wprowadzanieTekstu.getDocument().addDocumentListener(this);
         InputMap im = wprowadzanieTekstu.getInputMap();
         ActionMap am = wprowadzanieTekstu.getActionMap();
@@ -50,10 +55,10 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener {
         try {
             slownik = new Slownik("/home/pawel/NetBeansProjects/ChatNook/src/ChatJadro/wordsEn.txt");
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(ChatNook.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Nie znaleziono pliku słownika");
         }
 
-        im.put(KeyStroke.getKeyStroke("ENTER"), potwierdzAkcje);//dopelnianie tekstu
+        im.put(KeyStroke.getKeyStroke("ENTER"), potwierdzAkcje);
         am.put(potwierdzAkcje, new PotwierdzAkcje());
 
     }
@@ -214,11 +219,6 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener {
             }
         });
         ustawienia.setVisible(true);
-//        try {
-//            preferencje.wait();
-//        } catch (InterruptedException ex) {
-//            Logger.getLogger(ChatNook.class.getName()).log(Level.SEVERE, null, ex);
-//        }
     }//GEN-LAST:event_UstawieniaButActionPerformed
 
     private void statystykiButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statystykiButActionPerformed
@@ -244,10 +244,13 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener {
         wprowadzanieTekstu.setText("");
 
         String[] wprowadzoneSlowa = wiadomosc.split(" ");
+
+        slowaZCzatu.addAll(Arrays.asList(wprowadzoneSlowa)); // dodaje do bazy słów wprowadzonych z czatu, słowa wprowadzaone przez użytkownika
+
         ArrayList<String> wiadomosciList = new ArrayList<>();
         wiadomosciList.addAll(Arrays.asList(wprowadzoneSlowa));
-        Wejscie wejscieWiadomosci = new Wejscie(wiadomosciList, rzad);
-        wprowadzNGramyDoBazy(wejscieWiadomosci);
+
+        wprowadzNGramyDoBazy(new Wejscie(wiadomosciList, rzad));
         bazaLista = new ArrayList<>(baza); //aktualizuje liste o nowe n-gramy
 //        System.out.println("\n");//do debugowania
 //        wypiszNGramy();//do debugowania
@@ -257,21 +260,9 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener {
     private void wprowadzanieTekstuKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_wprowadzanieTekstuKeyTyped
 
     }//GEN-LAST:event_wprowadzanieTekstuKeyTyped
-
-    private static void inicjujCzat() {
-        Wejscie wejscie = null;
-        try {
-            wejscie = new Wejscie(path, rzad);
-        } catch (FileNotFoundException e) {
-            System.out.println("zly plik");
-        }
-        baza = new TreeSet<>();
-
-        wprowadzNGramyDoBazy(wejscie);
-        wypiszNGramy();
-        bazaLista = new ArrayList<>(baza);
-        sortujBazaLista();
-    }
+    /*
+     Jadro czatu
+     */
 
     private static String odpisz() {
         StringBuilder sb = new StringBuilder("X: ");
@@ -305,6 +296,25 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener {
     private static void sortujBazaLista() {
         bazaLista = new ArrayList<>(baza);
         bazaLista.sort(new ComparatorNGramWyst());
+    }
+
+    private static void inicjujCzat() {
+        Wejscie wejscie = null;
+        try {
+            wejscie = new Wejscie(path, rzad);
+        } catch (FileNotFoundException e) {
+            System.out.println("Nie odnaleziono pliku");
+        }
+        baza = new TreeSet<>();
+        if (wejscie != null) {
+            wprowadzNGramyDoBazy(wejscie);
+        }
+        if (slowaZCzatu != null) {
+            wprowadzNGramyDoBazy(new Wejscie(slowaZCzatu, rzad));
+        }
+//        wypiszNGramy(); //debug
+        bazaLista = new ArrayList<>(baza);
+        sortujBazaLista();
     }
 
     /**
@@ -350,6 +360,9 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener {
         }
     }
 
+    /*
+     Dopelnianie tekstu podczas pisania.
+     */
     @Override
     public void insertUpdate(DocumentEvent ev) {
         if (ev.getLength() != 1) {
@@ -457,10 +470,10 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener {
     // End of variables declaration//GEN-END:variables
 
     private static Preferences preferencje;
-    private static String path = "/home/pawel/NetBeansProjects/Chat/src/ChatJadro/test";
+    private static String path = "/home/pawel/NetBeansProjects/ChatNook/src/ChatJadro/listy.txt";
     private static TreeSet<NGram> baza;
-//    private static Statystyki stat;
     private static List<NGram> bazaLista;
+    private static ArrayList<String> slowaZCzatu = null;
     private static int rzad = 3;
 
     private static enum Tryb {

@@ -12,7 +12,8 @@ import java.util.Scanner;
 
 /**
  *
- * @author pawel Klasa wczytuje plik źródlowy i dzieli tekst na sufiksy i
+ * @author pawel 
+ * Klasa wczytuje plik źródlowy i dzieli tekst na sufiksy i
  * prefiksy
  */
 public class Wejscie {
