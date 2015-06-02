@@ -22,32 +22,34 @@ public class StatystykiFrame extends javax.swing.JFrame {
 
     public void odswiezNajczestsze(Statystyki stat) {
         NGram[] najczestsze = new NGram[10];
-
-        for (int i = 0; i < 10; i++) {
-            najczestsze[i] = stat.getNGram(i);
-            if (najczestsze[i] == null) {
-                break;
-            }
-            
-        }try{
-        nGram1.setText(najczestsze[0].getNGram());
-        nGram2.setText(najczestsze[1].getNGram());
-        nGram3.setText(najczestsze[2].getNGram());
-        nGram4.setText(najczestsze[3].getNGram());
-        nGram5.setText(najczestsze[4].getNGram());
+        if(stat.iloscNGramow() < 5){
+            return;
         }
-        catch(NullPointerException e){
-            
+        try {
+            for (int i = 0; i < 5; i++) {
+                najczestsze[i] = stat.getNGram(i);
+                if (najczestsze[i] == null) {
+                    return;
+                }
+            }
+            nGram1.setText(najczestsze[0].getNGram());
+            nGram2.setText(najczestsze[1].getNGram());
+            nGram3.setText(najczestsze[2].getNGram());
+            nGram4.setText(najczestsze[3].getNGram());
+            nGram5.setText(najczestsze[4].getNGram());
+        } catch (Exception e) {
+
         }
         int wszystkieWystapienia = 0;
-        for( int i = 0; i < 5; i++)
+        for (int i = 0; i < 5; i++) {
             wszystkieWystapienia += najczestsze[i].getSufiksWyst();
-        nGram1Bar.setValue(100 *najczestsze[0].getSufiksWyst()/wszystkieWystapienia);
-        nGram2Bar.setValue(100 *najczestsze[1].getSufiksWyst()/wszystkieWystapienia);
-        nGram3Bar.setValue(100 *najczestsze[2].getSufiksWyst()/wszystkieWystapienia);
-        nGram4Bar.setValue(100 *najczestsze[3].getSufiksWyst()/wszystkieWystapienia);
-        nGram5Bar.setValue(100 *najczestsze[4].getSufiksWyst()/wszystkieWystapienia);
-        
+        }
+        nGram1Bar.setValue(100 * najczestsze[0].getSufiksWyst() / wszystkieWystapienia);
+        nGram2Bar.setValue(100 * najczestsze[1].getSufiksWyst() / wszystkieWystapienia);
+        nGram3Bar.setValue(100 * najczestsze[2].getSufiksWyst() / wszystkieWystapienia);
+        nGram4Bar.setValue(100 * najczestsze[3].getSufiksWyst() / wszystkieWystapienia);
+        nGram5Bar.setValue(100 * najczestsze[4].getSufiksWyst() / wszystkieWystapienia);
+
         nGram1Bar.setString("" + najczestsze[0].getSufiksWyst());
         nGram2Bar.setString("" + najczestsze[1].getSufiksWyst());
         nGram3Bar.setString("" + najczestsze[2].getSufiksWyst());

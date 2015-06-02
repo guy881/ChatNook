@@ -40,9 +40,8 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener {
     public ChatNook() {
         initComponents();
         preferencje = Preferences.userRoot().node(this.getClass().getName());
-        String poleRzadu = "rzad";
-        String poleSciezki = "sciezka";
-        preferencje.putInt(poleRzadu, rzad);
+        preferencje.putInt("rzad", rzad);
+        preferencje.put("path", path);
 
         wprowadzanieTekstu.getDocument().addDocumentListener(this);
         InputMap im = wprowadzanieTekstu.getInputMap();
@@ -197,27 +196,20 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener {
 
     private void UstawieniaButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UstawieniaButActionPerformed
         UstawieniaFrame ustawienia = new UstawieniaFrame();
-        ustawienia.inicujPreferencje( preferencje.getInt("rzad", rzad), preferencje);
+        ustawienia.inicujPreferencje(preferencje.getInt("rzad", rzad), preferencje);
         preferencje.addPreferenceChangeListener(new PreferenceChangeListener() {
 
             @Override
             public void preferenceChange(PreferenceChangeEvent evt1) {
+                if (!path.equals(preferencje.get("path", path))) {
+                    System.out.println("zmiana sciezki");
+                    path = preferencje.get("path", path);
+                    inicjujCzat();
+                }
                 if (preferencje.getInt("rzad", rzad) != rzad) {
-                    System.out.println("zmieniono rzad n-gramow " + preferencje.getInt("rzad", rzad));
+                    System.out.println("zmieniono rzad n-gramow: " + preferencje.getInt("rzad", rzad));
                     rzad = preferencje.getInt("rzad", rzad);
-
-                    Wejscie wejscie = null;
-                    try {
-                        wejscie = new Wejscie(path, rzad);
-                    } catch (FileNotFoundException e) {
-                        System.out.println("zly plik");
-                    }
-                    baza = new TreeSet<>();
-
-                    wprowadzNGramyDoBazy(wejscie);
-                    wypiszNGramy();
-                    bazaLista = new ArrayList<>(baza);
-                    sortujBazaLista();
+                    inicjujCzat();
                 }
             }
         });
@@ -230,12 +222,15 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener {
     }//GEN-LAST:event_UstawieniaButActionPerformed
 
     private void statystykiButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statystykiButActionPerformed
+        if (bazaLista.isEmpty()) {
+            wprowadzanieTekstu.setText("Baza jest pusta, nie można wyświetlić statystyk.");
+            return;
+        }
         sortujBazaLista();
-        stat = new Statystyki(bazaLista, 10);
+        Statystyki stat = new Statystyki(bazaLista, 10);
         StatystykiFrame statystykiOkno = new StatystykiFrame();
         statystykiOkno.odswiezNajczestsze(stat);
         statystykiOkno.setVisible(true);
-        System.out.println(preferencje.getInt("rzad", 0));
     }//GEN-LAST:event_statystykiButActionPerformed
 
     private void wprowadzanieTekstuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_wprowadzanieTekstuMouseClicked
@@ -263,6 +258,21 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener {
 
     }//GEN-LAST:event_wprowadzanieTekstuKeyTyped
 
+    private static void inicjujCzat() {
+        Wejscie wejscie = null;
+        try {
+            wejscie = new Wejscie(path, rzad);
+        } catch (FileNotFoundException e) {
+            System.out.println("zly plik");
+        }
+        baza = new TreeSet<>();
+
+        wprowadzNGramyDoBazy(wejscie);
+        wypiszNGramy();
+        bazaLista = new ArrayList<>(baza);
+        sortujBazaLista();
+    }
+
     private static String odpisz() {
         StringBuilder sb = new StringBuilder("X: ");
         Random rand = new Random();
@@ -270,8 +280,9 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener {
         if (iloscNGramow == 0) {
             iloscNGramow = rand.nextInt(10);
         }
-        if(bazaLista.size() == 0)
+        if (bazaLista.isEmpty()) {
             return sb.toString();
+        }
         for (int i = 0; i < iloscNGramow; i++) {
             int index = rand.nextInt(bazaLista.size());
             sb.append(bazaLista.get(index).getNGram());
@@ -330,19 +341,7 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener {
             }
         });
 
-        Wejscie wejscie = null;
-
-        try {
-            wejscie = new Wejscie(path, rzad);
-        } catch (FileNotFoundException e) {
-            System.out.println("zly plik");
-        }
-        baza = new TreeSet<>();
-
-        wprowadzNGramyDoBazy(wejscie);
-        wypiszNGramy();
-        bazaLista = new ArrayList<>(baza);
-        sortujBazaLista();
+        inicjujCzat();
     }
 
     private static void wypiszNGramy() {
@@ -460,10 +459,9 @@ public class ChatNook extends javax.swing.JFrame implements DocumentListener {
     private static Preferences preferencje;
     private static String path = "/home/pawel/NetBeansProjects/Chat/src/ChatJadro/test";
     private static TreeSet<NGram> baza;
-    private static Statystyki stat;
+//    private static Statystyki stat;
     private static List<NGram> bazaLista;
     private static int rzad = 3;
-    private static DopelnianieSlow dopelnianie;
 
     private static enum Tryb {
 

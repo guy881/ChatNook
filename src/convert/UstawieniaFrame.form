@@ -102,6 +102,10 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="wyborPlikuActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="filter = new FileNameExtensionFilter(&quot;Pliki txt&quot;, &quot;txt&quot;);&#xa;//wyborPliku.addChoosableFileFilter(filter);&#xa;wyborPliku.setFileFilter(filter);"/>
+            <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="private FileNameExtensionFilter filter;"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

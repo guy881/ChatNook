@@ -5,11 +5,13 @@
  */
 package convert;
 
+import java.io.File;
 import java.util.prefs.Preferences;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -70,6 +72,10 @@ public class UstawieniaFrame extends javax.swing.JFrame {
                 .addComponent(wyborPliku, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        filter = new FileNameExtensionFilter("Pliki txt", "txt");
+        //wyborPliku.addChoosableFileFilter(filter);
+        wyborPliku.setFileFilter(filter);
 
         rzadNGramow.setBorder(javax.swing.BorderFactory.createTitledBorder("Rząd n-gramów"));
 
@@ -152,7 +158,10 @@ public class UstawieniaFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_anulujButActionPerformed
 
     private void wyborPlikuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wyborPlikuActionPerformed
-        // TODO add your handling code here:
+        File plik = wyborPliku.getSelectedFile();
+        System.out.println(plik.getName());
+        if(plik.canRead() && plik.getName().endsWith("txt"))
+            preferencje.put("path", plik.getPath());
     }//GEN-LAST:event_wyborPlikuActionPerformed
 
     private void wyborRzeduNGramowStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_wyborRzeduNGramowStateChanged
@@ -200,15 +209,11 @@ public class UstawieniaFrame extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UstawieniaFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UstawieniaFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UstawieniaFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(UstawieniaFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */
@@ -218,7 +223,7 @@ public class UstawieniaFrame extends javax.swing.JFrame {
             }
         });
     }
-
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton anulujBut;
@@ -226,6 +231,7 @@ public class UstawieniaFrame extends javax.swing.JFrame {
     private javax.swing.JPanel plikWejsciowy;
     private javax.swing.JPanel rzadNGramow;
     private javax.swing.JFileChooser wyborPliku;
+    private FileNameExtensionFilter filter;
     private javax.swing.JSpinner wyborRzeduNGramow;
     private javax.swing.JButton zapiszBut;
     // End of variables declaration//GEN-END:variables

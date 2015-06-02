@@ -27,6 +27,9 @@ public class Statystyki {
         najczestszeNGramy = n.subList(0, size);
     }
 
+    public int iloscNGramow(){
+        return najczestszeNGramy.size();
+    }
     public NGram getNGram(int index) { // może zwrócić null
         if (index >= this.size -1) {
             return null;
